@@ -1,4 +1,5 @@
 ## flask-project-cmdhelper
+- A web application designed to facilitate command searches, built using Flask, MySQL, dataTables, and Bootstrap. It is containerized with Docker Compose and employs separate containers for Gunicorn and Nginx to ensure efficient deployment.
 ## Setup
 - git clone this repository
 ``` bash
