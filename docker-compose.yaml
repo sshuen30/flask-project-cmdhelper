@@ -1,0 +1,45 @@
+version: '3'
+services:
+  
+  app:
+    build:
+      context: .
+
+    ports:
+      - "5001:5001"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: admin 
+      MYSQL_PASSWORD: admin
+      MYSQL_DB: cmddb
+    depends_on:
+      - mysql
+  
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    links:
+     - "mysql:db"
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cmddb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    volumes:
+      - /home/myproject/mysql-data/:/var/lib/mysql/
+      - /home/myproject/uploads/:/app/uploads/
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    ports:
+      - "8081:8081"
+

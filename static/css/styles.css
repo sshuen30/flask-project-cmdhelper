@@ -1,0 +1,117 @@
+.table {
+  font: 15px/1.2em monospace;
+}
+
+.icon-cell {
+  text-align: center;
+  /* Horizontally centers the content */
+  vertical-align: middle;
+  /* Vertically centers the content */
+}
+
+.modal-title {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 20px;
+  background-color: blue;
+  color: white;
+  padding: 4px 12px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.content {
+  max-width: 800px;
+  margin: auto;
+}
+
+.btn1 {
+  margin-top: 0px;
+  margin-right: 0px;
+}
+
+#test_detail {
+  font-size: 16px;
+  color: black;
+}
+
+th {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 17px;
+}
+
+tr td {
+  border-bottom: 1px solid #212529;
+  border-collapse: collapse;
+  padding: 16px;
+  vertical-align: center;
+  word-break: break-word;
+  white-space: normal !important;
+}
+
+td.pass {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  background-color: green;
+  color: white;
+  font-size: 16px;
+
+}
+
+td.fail {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  background-color: red;
+  color: whitesmoke;
+  text-align: center;
+  font-size: 16px;
+}
+
+td.abort {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  background-color: orange;
+  color: rgb(64, 59, 59);
+  text-align: center;
+  font-size: 16px;
+}
+
+.newanchor {
+  font-size: 16px;
+  font-weight: bold;
+  color: blueviolet;
+  text-align: center;
+}
+
+/* Set the width of the modal-dialog */
+.modal-dialog {
+  max-width: 700px;
+}
+
+/* Add a space between the search box and datatable */
+.dataTables_filter {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+form label {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.row {
+  margin: 0px;
+  padding: 0px;
+  padding-right: 0px;
+}
+
+.col-sm-6 {
+  padding: 0px;
+}
+
+.container-fluid {
+  background-color: gray;
+  margin: 0px;
+  padding: 10px;
+}

@@ -1,0 +1,55 @@
+
+/* Container */
+.container{
+    width:70%;
+    margin:auto;
+}
+
+/* Login */
+#div_login{
+    background-color: rgb(166,182,183);
+    border: 1px solid gray;
+    border-radius: 3px;
+    width: 600px;
+    height: 300px;
+    box-shadow: 0px 2px 2px 0px  gray;
+    margin: 0 auto;
+}
+
+#div_login h1{
+    margin-top: 0px;
+    font-weight: normal;
+    padding: 10px;
+    background-color: rgb(85, 42, 240);
+    color: rgb(245,220,215);
+    font-family: sans-serif;
+}
+
+#div_login div{
+    clear: both;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+#div_login .textbox{
+    width: 80%;
+    padding: 7px;
+}
+
+#div_login input[type=submit]{
+    padding: 7px;
+    width: 100px;
+    background-color: rgb(174,208,210);
+    border: 0px;
+    color: black;
+}
+
+/* media */
+@media screen and (max-width:720px){
+    .container{
+        width: 100%;
+    }
+    #div_login{
+        width: 99%;
+    }
+}

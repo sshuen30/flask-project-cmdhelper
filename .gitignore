@@ -1,0 +1,11 @@
+# Ignore virtual environment directories
+myvenv/
+
+# Ignore Python __pycache__ directories
+__pycache__/
+
+# Ignore vs code
+.vscode
+
+
+

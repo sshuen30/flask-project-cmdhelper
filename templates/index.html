@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<!-- <html data-bs-theme="dark"> -->
+<html>
+
+<head>
+
+    <!-- dataTables 1.13.6 -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+    <!-- BootStrap 5.3 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+    <!-- Fonts, Buttons, custom styles-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.dataTables.min.css') }}">
+    <script src="{{ url_for('static', filename='js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jszip.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/pdfmake.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vfs_fonts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/buttons.html5.min.js') }}"></script>
+
+    <style>
+        /* Define a CSS rule to change the text color of the "Command Execution" column */
+        #cmdtable tbody td:nth-child(3) {
+            color: springgreen;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3><a href="{{ url_for('index') }}" style="text-decoration: none; color:black">#!/bin/bash
+                        Commands</a>
+                </h3>
+            </div>
+            <div class="col-sm-6 text-end"><button type="button" id="add_button" data-bs-toggle="modal"
+                    data-bs-target="#newModal" class="btn1 btn-success btn-lg"><i class="fa fa-plus-circle fa-lg"></i>
+                    Add New Commands</button></div>
+        </div>
+
+        <table id="cmdtable" class="table table-sm table-bordered table-dark" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Command Description</th>
+                    <th>Command Execution</th>
+                    <th>Resource</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td class="icon-cell">
+                        {% if row[4] %} <!-- Check if an image exists -->
+                        <button type="button" name="view-image" data-image="{{ row[4] }}" data-bs-toggle="modal"
+                            data-bs-target="#imageModal" class="btn btn-info btn-sm view-image">
+                            <i class="fa fa-image fa-lg"></i>
+                        </button>
+                        {% endif %}
+                    </td>
+                    <td class="icon-cell"><button type="button" name="update" data-id="{{ row[0] }}"
+                            data-bs-toggle="modal" data-bs-target="#updateModal"
+                            class="btn btn-primary btn-sm update"><i class="fa fa-pencil-square fa-lg"></i></button>
+                    </td>
+                    <td class="icon-cell">
+                        <button type="button" name="delete" data-id="{{ row[0] }}" data-bs-toggle="modal"
+                            data-bs-target="#delModal" class="btn btn-danger btn-sm delete"><i
+                                class="fa fa-trash-o fa-lg"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div id="newModal" class="modal fade">
+            <div class="modal-dialog">
+                <form method="post" action="/" id="newcmd_form" enctype="multipart/form-data">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add New Command</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <label>Enter Command Category</label><br>
+                            <label>Select 'Others' and define a new category in the text box below</label>
+                            <select name="category" id="category" class="form-control">
+                                <option value="">Select an existing category</option>
+                                {% for category in categories|sort %}
+                                <option value="{{ category }}">{{ category }}</option>
+                                {% endfor %}
+                                <option value="Other">Others (add a new category)</option>
+                            </select>
+                            <input type="text" name="new_category" id="new_category" class="form-control" />
+                            <br />
+
+                            <label>Enter Command Description</label>
+                            <textarea name="description" class="form-control" id="description" rows="5" cols="33"
+                                maxlength="8000"></textarea>
+                            <br />
+
+                            <label>Enter Command Execution</label>
+                            <textarea name="execution" class="form-control" id="execution" rows="5" cols="33"
+                                maxlength="500"></textarea>
+                            <br />
+
+                            <label>Upload an image (.jpg or .png extension)</label><br>
+                            <input type="file" name="image" id="image" accept="image/png, image/jpeg, image/gif">
+                        </div>
+
+                        <div class="modal-footer">
+                            <input type="submit" name="action" id="action" class="btn btn-primary" value="Add" />
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div id="updateModal" class="modal fade">
+            <div class="modal-dialog">
+                <form method="post" action="/update" id="updatecmd_form" enctype="multipart/form-data">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Update Command</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <input type="hidden" name="id" id="update_id" value="">
+                            <label>Enter Command Category</label>
+                            <select name="update_category" id="update_category" class="form-control">
+                                <option value="">Select an existing category</option>
+                                {% for category in categories|sort %}
+                                <option value="{{ category }}">{{ category }}</option>
+                                {% endfor %}
+                                <option value="Other">Other (add a new category)</option>
+                            </select>
+                            <input type="text" name="new_update_category" id="new_update_category"
+                                class="form-control" />
+                            <br />
+                            <label>Enter Command Description</label>
+                            <textarea name="update_description" class="form-control" id="update_description" rows="5"
+                                cols="33" maxlength="8000"></textarea>
+                            <br />
+                            <label>Enter Command Execution</label>
+                            <textarea name="update_execution" class="form-control" id="update_execution" rows="5"
+                                cols="33" maxlength="500"></textarea>
+                            <br />
+                            <label>Upload an image (.jpg or .png extension)</label><br>
+                            <input type="file" name="update_image" id="update_image"
+                                accept="image/png, image/jpeg, image/gif">
+                        </div>
+
+                        <div class="modal-footer">
+                            <input type="submit" name="action" id="update-action" class="btn btn-primary"
+                                value="Update" />
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for displaying the image -->
+        <div id="imageModal" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Image Viewer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img id="displayedImage" src="" class="img-fluid" alt="Displayed Image">
+                        <div class="mt-2">
+                            <a href="#" id="expandImage" class="btn btn-secondary">View Full Size</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var dataTable = $('#cmdtable').DataTable({
+                "paging": true,
+                "pageLength": 100,
+                "columnDefs": [
+                    { "width": "10%", "targets": 0 },
+                    { "width": "42%", "targets": 1 },
+                    { "width": "36%", "targets": 2 },
+                    { "width": "4%", "targets": 3 },
+                    { "width": "4%", "targets": 4 },
+                    { "width": "4%", "targets": 5 }
+                ],
+            });
+
+            $(document).on("click", ".view-image", function () {
+                var imageUrl = $(this).data("image");
+                if (imageUrl) {
+                    // Make sure the URL is correctly pointing to the image
+                    var imagePath = "/get_image/" + imageUrl; // Update the route according to your Flask app
+                    $("#displayedImage").attr("src", imagePath);
+                    $("#imageModal").modal("show");
+                }
+            });
+
+            $("#expandImage").on("click", function (e) {
+                e.preventDefault();
+                // Open the displayed image in a new tab for full view
+                window.open($("#displayedImage").attr("src"));
+            });
+
+
+            $(document).on("click", ".update", function () {
+                var rowId = $(this).data("id");
+
+                // JS code to retrieve the data for the selected row by making an AJAX request
+                $.ajax({
+                    url: '/get_command/' + rowId,
+                    type: 'GET',
+                    success: function (response) {
+                        var data = response;
+                        // Debugging console.log statements
+                        console.log("Received Data:", data);
+                        // Populating 'updateModal' form with data from the row update button was clicked
+                        $("#update_id").val(data.id);
+                        $("#update_category").val(data.category);
+                        $("#update_description").val(data.description);
+                        $("#update_execution").val(data.execution);
+                        $("#updateModal").modal("show");
+                    }
+                });
+            });
+
+            // script to send an AJAX request to your Flask endpoint when the delete button is clicked
+            // The code uses jQuery to listen for a click event on elements with the class "delete".
+            //AJAX Request: Upon confirmation, an AJAX request is sent to the Flask endpoint using the DELETE method.
+            $(document).on("click", ".delete", function () {
+                var rowId = $(this).data("id");
+                if (confirm("Are you sure you want to delete this record?")) {
+                    $.ajax({
+                        url: '/delete_command/' + rowId,
+                        type: 'DELETE',
+                        success: function (response) {
+                            // On successful deletion, reload the page or update the table
+                            location.reload(); // or update the table without reloading the page
+                        }
+                    });
+                }
+            });
+
+
+        });
+
+    </script>
+</body>
+
+
+</html>
