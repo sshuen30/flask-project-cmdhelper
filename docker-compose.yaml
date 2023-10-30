@@ -14,7 +14,8 @@ services:
       MYSQL_DB: cmddb
     depends_on:
       - mysql
-  
+    volumes:
+      - /cmdhelper/uploads:/app/uploads
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -32,7 +33,6 @@ services:
       MYSQL_PASSWORD: admin
     volumes:
       - /cmdhelper/mysql-data/:/var/lib/mysql/
-      - /cmdhelper/uploads:/app/uploads/
 
   nginx:
     image: nginx:latest
