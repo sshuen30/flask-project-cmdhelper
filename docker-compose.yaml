@@ -31,8 +31,8 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     volumes:
-      - /home/myproject/mysql-data/:/var/lib/mysql/
-      - /home/myproject/uploads/:/app/uploads/
+      - /home/flask-project-cmdhelper/mysql-data/:/var/lib/mysql/
+      - /home/flask-project-cmdhelper/uploads:/app/uploads/
 
   nginx:
     image: nginx:latest
