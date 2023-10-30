@@ -9,6 +9,7 @@ git clone https://github.com/sshuen30/flask-project-cmdhelper.git
 docker compose up -d --build
 ```
 - Docker compose will start 3 container: flask app, mariadb, nginx, phpmyadmin
+![image](https://github.com/sshuen30/flask-project-cmdhelper/assets/40738215/ffb3836c-ea61-464b-8d44-7c98da0bef13)
 ``` bash
 cd flask-project-cmdhelper
 ```
