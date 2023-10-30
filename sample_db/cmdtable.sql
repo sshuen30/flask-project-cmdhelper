@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 30, 2023 at 06:21 AM
+-- Generation Time: Oct 30, 2023 at 12:13 PM
 -- Server version: 5.5.68-MariaDB
 -- PHP Version: 5.4.16
 
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS `cmdtable` (
   `category` varchar(30) NOT NULL,
   `description` varchar(8000) NOT NULL,
   `execution` varchar(500) NOT NULL,
-  `image` varchar(500) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
+  `image` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cmdtable`
@@ -94,7 +94,7 @@ ALTER TABLE `cmdtable`
 -- AUTO_INCREMENT for table `cmdtable`
 --
 ALTER TABLE `cmdtable`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=64;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=67;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
