@@ -61,7 +61,6 @@ def index():
             'SELECT id, category, description, execution, image FROM cmdtable')
         data = cur.fetchall()
         cur.execute('SELECT DISTINCT category FROM cmdtable')
-        print(data)
         categories = [row[0] for row in cur.fetchall()]
         cur.close()
         return render_template('index.html', data=data, categories=categories)
@@ -81,7 +80,6 @@ def get_command(command_id):
         "execution": command[3],
         "image": command[4]
     }
-    print(data)
     response = jsonify(data)
     # Set Content-Type header
     response.headers['Content-Type'] = 'application/json'
